@@ -1,0 +1,6 @@
+build
+prog
+/glm/
+/glad/
+
+.DS_Store
