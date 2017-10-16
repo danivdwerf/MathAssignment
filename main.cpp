@@ -1,12 +1,14 @@
 #include <iostream>
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "Assets/_Scripts/Input.h"
+#include "Assets/_Scripts/Mat4x4.h"
 
 #define APP_NAME "Math Assignment"
+
+Input* input;
+Mat4x4* matrix = new Mat4x4();
+Mat4x4* matrix2 = new Mat4x4();
 
 int windowWidth = 640;
 int windowHeight = 360;
@@ -29,7 +31,6 @@ void onWindowResize(GLFWwindow* window, int w, int h)
 {
   windowWidth = w;
   windowHeight = h;
-  glViewport(0, 0, w, h);
 }
 
 void createWindow()
@@ -49,14 +50,30 @@ void createWindow()
 
 int main(int argc, char* argv[])
 {
+  matrix->mat[0][2] = 4;
+  matrix->mat[2][3] = 2;
+  matrix->mat[1][2] = 6;
+  matrix->mat[3][1] = 7;
+
+  matrix2->mat[0][0] = 3;
+  matrix2->mat[1][1] = 5;
+
+  std::cout << matrix << '\n' << matrix2 << '\n';
+  matrix * *matrix2;
+  std::cout << matrix << '\n';
   setupGLFW();
   createWindow();
+
+  input = new Input(window);
 
   while(!glfwWindowShouldClose(window))
   {
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
+
+    if(input->getKeyDown(escape))
+      glfwSetWindowShouldClose(window, true);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
