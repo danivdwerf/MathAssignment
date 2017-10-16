@@ -1,13 +1,10 @@
 #include "Input.h"
 
-Input::Input(GLFWwindow* window)
-{
-  this->window = window;
-}
+GLFWwindow* Input::window;
 
 bool Input::getKeyDown(KeyCode keyCode)
 {
-  if (glfwGetKey(this->window, keyCode) == GLFW_PRESS)
+  if (glfwGetKey(window, keyCode) == GLFW_PRESS)
     return true;
 
   return false;
