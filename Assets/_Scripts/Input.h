@@ -51,8 +51,7 @@ enum KeyCode
 
 class Input
 {
-  private: GLFWwindow* window;
-  public: Input(GLFWwindow*);
-  public: bool getKeyDown(KeyCode);
+  public: static GLFWwindow* window;
+  public: static bool getKeyDown(KeyCode);
 };
 #endif

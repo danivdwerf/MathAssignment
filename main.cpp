@@ -1,17 +1,15 @@
 #include <iostream>
-#include <GLFW/glfw3.h>
 
 #include "Assets/_Scripts/Input.h"
 #include "Assets/_Scripts/Mat4x4.h"
 
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 360
 #define APP_NAME "Math Assignment"
 
-Input* input;
+// Input* input;
 Mat4x4* matrix = new Mat4x4();
 Mat4x4* matrix2 = new Mat4x4();
-
-int windowWidth = 640;
-int windowHeight = 360;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -21,28 +19,23 @@ GLFWwindow* window;
 void setupGLFW()
 {
   glfwInit();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-}
-
-void onWindowResize(GLFWwindow* window, int w, int h)
-{
-  windowWidth = w;
-  windowHeight = h;
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+  // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 }
 
 void createWindow()
 {
-  window = glfwCreateWindow(windowWidth, windowHeight, APP_NAME, NULL, NULL);
+  window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, APP_NAME, NULL, NULL);
   if (window == NULL)
   {
     std::cout << "Failed to create GLFW window" << '\n';
     glfwTerminate();
   }
   glfwMakeContextCurrent(window);
-  glfwSetFramebufferSizeCallback(window, onWindowResize);
+  Input::window = window;
+  // glfwSetFramebufferSizeCallback(window, onWindowResize);
   // glfwSetCursorPosCallback(window, onMouseMove);
   // glfwSetScrollCallback(window, onMouseScroll);
   // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -64,7 +57,7 @@ int main(int argc, char* argv[])
   setupGLFW();
   createWindow();
 
-  input = new Input(window);
+  // input = new Input(window);
 
   while(!glfwWindowShouldClose(window))
   {
@@ -72,7 +65,7 @@ int main(int argc, char* argv[])
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    if(input->getKeyDown(escape))
+    if(Input::getKeyDown(escape))
       glfwSetWindowShouldClose(window, true);
 
     glfwSwapBuffers(window);
