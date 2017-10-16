@@ -57,15 +57,13 @@ int main(int argc, char* argv[])
   setupGLFW();
   createWindow();
 
-  // input = new Input(window);
-
   while(!glfwWindowShouldClose(window))
   {
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    if(Input::getKeyDown(escape))
+    if(Input::getKeyDown(Input::escape))
       glfwSetWindowShouldClose(window, true);
 
     glfwSwapBuffers(window);
