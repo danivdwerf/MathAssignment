@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
   matrix2->mat[1][1] = 5;
 
   std::cout << matrix << '\n' << matrix2 << '\n';
-  matrix * *matrix2;
+  matrix - *matrix2;
   std::cout << matrix << '\n';
   setupGLFW();
   createWindow();
