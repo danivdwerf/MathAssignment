@@ -24,10 +24,10 @@ class Mat4x4
   friend std::ostream& operator<<(std::ostream& os, const Mat4x4* test)
   {
     std::stringstream ss;
-    ss << "[" << test->mat[0][0] << " " << test->mat[0][1] << " " << test->mat[0][2] << " " << test->mat[0][3] << "]" << '\n';
-    ss << "[" << test->mat[1][0] << " " << test->mat[1][1] << " " << test->mat[1][2] << " " << test->mat[1][3] << "]" << '\n';
-    ss << "[" << test->mat[2][0] << " " << test->mat[2][1] << " " << test->mat[2][2] << " " << test->mat[2][3] << "]" << '\n';
-    ss << "[" << test->mat[3][0] << " " << test->mat[3][1] << " " << test->mat[3][2] << " " << test->mat[3][3] << "]" << '\n';
+    ss << "[" << test->mat[0][0] << "  " << test->mat[0][1] << "  " << test->mat[0][2] << "  " << test->mat[0][3] << "]" << '\n';
+    ss << "[" << test->mat[1][0] << "  " << test->mat[1][1] << "  " << test->mat[1][2] << "  " << test->mat[1][3] << "]" << '\n';
+    ss << "[" << test->mat[2][0] << "  " << test->mat[2][1] << "  " << test->mat[2][2] << "  " << test->mat[2][3] << "]" << '\n';
+    ss << "[" << test->mat[3][0] << "  " << test->mat[3][1] << "  " << test->mat[3][2] << "  " << test->mat[3][3] << "]" << '\n';
     os << ss.str();
     return os;
   }
@@ -74,6 +74,26 @@ class Mat4x4
     original->mat[3][2] = pos3_2;
     original->mat[3][3] = pos3_3;
 
+    return original;
+  }
+
+  friend Mat4x4* operator+(Mat4x4* original, const Mat4x4& other)
+  {
+    for(int i = 0; i < 4; i++)
+    {
+      for(int j = 0; j < 4; j++)
+        original->mat[i][j] = original->mat[i][j] + other.mat[i][j];
+    }
+    return original;
+  }
+
+  friend Mat4x4* operator-(Mat4x4* original, const Mat4x4& other)
+  {
+    for(int i = 0; i < 4; i++)
+    {
+      for(int j = 0; j < 4; j++)
+        original->mat[i][j] = original->mat[i][j] - other.mat[i][j];
+    }
     return original;
   }
 };
