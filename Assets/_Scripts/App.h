@@ -7,7 +7,8 @@
 #define APP_NAME "Math Assignment"
 
 #include "GUI.h"
-#include "Mat4x4.h"
+#include "Input.h"
+#include "Matrix.h"
 
 struct OperatorButton
 {
@@ -25,7 +26,6 @@ class App
   public: App(int argc, char* argv[])
   {
     gui = new GUI();
-
     buttons = new OperatorButton[4];
 
     gtk_init(&argc, &argv);
@@ -33,6 +33,21 @@ class App
 
   public: void showApp()
   {
+    Matrix* mat1 = new Matrix(4,4);
+    mat1->mat[0][0] = 4;
+    mat1->mat[2][3] = 3;
+    mat1->mat[3][3] = 2;
+    Matrix* mat2 = new Matrix(4,4);
+    mat2->mat[2][1] = 6;
+    mat2->mat[0][2] = 2;
+    mat2->mat[2][2] = 1;
+    mat2->mat[3][3] = 2;
+
+    std::cout << mat1 << '\n';
+    std::cout << mat2 << '\n';
+    Matrix* temp = mat1->multiply(mat2);
+    std::cout << temp << '\n';
+
     this->window = gui->createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_RESIZE, APP_NAME, 10);
     this->fixed = gui->createFixed(this->window);
 
