@@ -33,5 +33,42 @@ class GUI
     gtk_widget_set_name(temp, id);
   	return temp;
   }
+
+  public: GtkWidget* createInputField(const char* text, GtkWidget* fixed, int xPos, int yPos, int width,int h, const char* id = "InputField")
+  {
+    GtkWidget* if_btn = gtk_entry_new();
+    gtk_entry_set_placeholder_text((GtkEntry*)if_btn, text);
+    gtk_entry_set_width_chars((GtkEntry*)if_btn,width);
+
+    gtk_fixed_put (GTK_FIXED (fixed), if_btn, xPos, yPos);
+    gtk_widget_set_name(if_btn, id);
+    return if_btn;
+  }
+
+  public: const char* getEntryText(GtkEntry* entry)
+  {
+    GtkEntry* entry_btn = entry;
+    const char* entryText;
+    entryText = gtk_entry_get_text(entry_btn);
+    return entryText;
+  }
+
+  public: void setStyleSheet(const gchar* path)
+  {
+    GtkCssProvider* provider = gtk_css_provider_new();
+    GdkDisplay* display = gdk_display_get_default();
+    GdkScreen* screen = gdk_display_get_default_screen(display);
+    gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    GError* error = nullptr;
+    gtk_css_provider_load_from_file(provider, g_file_new_for_path(path), &error);
+
+    if(error != NULL)
+      std::cout << error-> message << '\n';
+
+    g_object_unref(provider);
+    std::cout << gtk_css_provider_load_from_file(provider, g_file_new_for_path(path), &error) << '\n';
+  }
+
 };
 #endif
