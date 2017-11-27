@@ -7,6 +7,8 @@
 #define WINDOW_BORDER 10
 #define APP_NAME "Math Assignment"
 
+#include <vector>
+
 #include "GUI.h"
 #include "Matrix.h"
 #include "EntryWidget.h"
@@ -38,16 +40,18 @@ class App
   private: EntryWidget* columnsEntry = nullptr;
   private: OperatorButton* buttons = nullptr;
   private: InputFieldButton** inputfieldButtons = nullptr;
+  private: std::vector<Matrix*>matrices;
+  private: std::vector<const char*>operators;
 
-  private: int rows = 4;
-  private: int columns = 4;
+  private: int rows = 2;
+  private: int columns = 2;
   private: const gchar* styleSheetPath = "Assets/stylesheet.css";
 
   public: App(int argc, char* argv[])
   {
     gui = new GUI();
     buttons = new OperatorButton[4];
-    
+
     this->inputfieldButtons = new InputFieldButton*[this->rows];
     for(int i = 0; i < this->rows; i++)
       this->inputfieldButtons[i] = new InputFieldButton[this->columns];
@@ -85,19 +89,22 @@ class App
   {
     buttons[0].label = "+";
     buttons[0].button = gui->createButton("+", this->fixed, 290, 80, 20, 20);
-    g_signal_connect(buttons[0].button, "clicked", G_CALLBACK(test), this);
+    g_signal_connect(buttons[0].button, "clicked", G_CALLBACK(add_callback), this);
 
     buttons[1].label = "-";
     buttons[1].button = gui->createButton("-", this->fixed, 290, 120, 20, 20);
+    g_signal_connect(buttons[1].button, "clicked", G_CALLBACK(substract_callback), this);
 
     buttons[2].label = "*";
     buttons[2].button = gui->createButton("*", this->fixed, 290, 160, 20, 20);
+    g_signal_connect(buttons[2].button, "clicked", G_CALLBACK(multiply_callback), this);
 
     buttons[3].label = "=";
     buttons[3].button = gui->createButton("=", this->fixed, 290, 200, 20, 20);
+    g_signal_connect(buttons[3].button, "clicked", G_CALLBACK(equal_calback), this);
   }
 
-  public: void hop()
+  private: Matrix* fieldToMatrix()
   {
     Matrix* mat = new Matrix(this->rows, this->columns);
     for(int i = 0; i < this->rows; i++)
@@ -120,14 +127,85 @@ class App
         this->inputfieldButtons[i][j].widget->reset();
       }
     }
-
-    std::cout << mat << '\n';
+    return mat;
   }
 
-  private: static void test(GtkWidget* widget, gpointer* data)
+  private: void setMatrix(Matrix* mat)
+  {
+    for (int i = 0; i < this->rows; i++)
+    {
+      for (int j = 0; j < this->columns; j++)
+      {
+        int value = mat->mat[i][j];
+        this->inputfieldButtons[i][j].widget->setText(std::to_string(value).c_str());
+      }
+    }
+  }
+
+  public: void add()
+  {
+    Matrix* mat = fieldToMatrix();
+    matrices.push_back(mat);
+    operators.push_back("+");
+  }
+
+  public: void substract()
+  {
+    Matrix* mat = fieldToMatrix();
+    matrices.push_back(mat);
+    operators.push_back("-");
+  }
+
+  public: void multiply()
+  {
+    Matrix* mat = fieldToMatrix();
+    matrices.push_back(mat);
+    operators.push_back("*");
+  }
+
+  public: void calculate()
+  {
+    Matrix* mat = fieldToMatrix();
+    matrices.push_back(mat);
+
+    Matrix* temp = matrices[0];
+    int size = operators.size();
+    for(int i = 0; i < size; i++)
+    {
+      if(strcmp(operators[i], "+") == 0)
+        temp = temp->add(matrices[i+1]);
+
+      if(strcmp(operators[i], "-") == 0)
+        temp = temp->subtract(matrices[i+1]);
+
+      if(strcmp(operators[i], "*") == 0)
+        temp = temp->multiply(matrices[i+1]);
+    }
+    this->setMatrix(temp);
+  }
+
+  private: static void add_callback(GtkWidget* widget, gpointer* data)
   {
     App* test = reinterpret_cast<App*>(data);
-    test->hop();
+    test->add();
+  }
+
+  private: static void substract_callback(GtkWidget* widget, gpointer* data)
+  {
+    App* test = reinterpret_cast<App*>(data);
+    test->substract();
+  }
+
+  private: static void multiply_callback(GtkWidget* widget, gpointer* data)
+  {
+    App* test = reinterpret_cast<App*>(data);
+    test->multiply();
+  }
+
+  private: static void equal_calback(GtkWidget* widget, gpointer* data)
+  {
+    App* test = reinterpret_cast<App*>(data);
+    test->calculate();
   }
 
   private: void createInputField(int startXPos, int startYPos, int increment)
