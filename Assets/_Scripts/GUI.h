@@ -36,20 +36,18 @@ class GUI
 
   public: GtkWidget* createInputField(const char* text, GtkWidget* fixed, int xPos, int yPos, int width,int h, const char* id = "InputField")
   {
-    GtkWidget* if_btn = gtk_entry_new();
-    gtk_entry_set_placeholder_text((GtkEntry*)if_btn, text);
-    gtk_entry_set_width_chars((GtkEntry*)if_btn,width);
+    GtkWidget* temp = gtk_entry_new();
+    gtk_entry_set_placeholder_text((GtkEntry*)temp, text);
+    gtk_entry_set_width_chars((GtkEntry*)temp, width);
 
-    gtk_fixed_put (GTK_FIXED (fixed), if_btn, xPos, yPos);
-    gtk_widget_set_name(if_btn, id);
-    return if_btn;
+    gtk_fixed_put (GTK_FIXED (fixed), temp, xPos, yPos);
+    gtk_widget_set_name(temp, id);
+    return temp;
   }
 
-  public: const char* getEntryText(GtkEntry* entry)
+  public: const char* getEntryText(GtkWidget* entry)
   {
-    GtkEntry* entry_btn = entry;
-    const char* entryText;
-    entryText = gtk_entry_get_text(entry_btn);
+    const char* entryText = gtk_entry_get_text(GTK_ENTRY(entry));
     return entryText;
   }
 
@@ -67,7 +65,6 @@ class GUI
       std::cout << error-> message << '\n';
 
     g_object_unref(provider);
-    std::cout << gtk_css_provider_load_from_file(provider, g_file_new_for_path(path), &error) << '\n';
   }
 
 };

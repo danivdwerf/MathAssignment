@@ -2,39 +2,45 @@
 #define ENTRY_WIDGET_H
 
 #include <gtk/gtk.h>
+#include <string>
 
 class EntryWidget
 {
-  public: GtkWidget* create(GtkWidget* fixed , int xPos, int yPos, int width, int height, const char* text,bool center = false,const char* id = "EntryWidget")
+  private: GtkWidget* widget = nullptr;
+
+  public: EntryWidget(GtkWidget* fixed , int xPos, int yPos, int width, int height, const char* placeholder, bool center = false, const char* id = "EntryWidget")
   {
-    GtkWidget* entry = gtk_entry_new();
-    // gtk_entry_set_placeholder_text((GtkEntry*)entry, text);
-    gtk_entry_set_text((GtkEntry*)entry,text);
-    gtk_entry_set_width_chars((GtkEntry*)entry,width);
-    gtk_fixed_put (GTK_FIXED (fixed), entry, xPos, yPos);
-    gtk_widget_set_name(entry, id);
+    GtkWidget* temp = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(temp), placeholder);
+    gtk_entry_set_width_chars(GTK_ENTRY(temp), width);
+    gtk_fixed_put (GTK_FIXED(fixed), temp, xPos, yPos);
+    gtk_widget_set_name(temp, id);
 
     if(center)
     {
       //TODO fix bug.
-      gtk_entry_set_alignment ((GtkEntry*)entry , (width/2));
+      gtk_entry_set_alignment (GTK_ENTRY(temp) , (width/2));
     }
-    return entry;
+
+    this->widget = temp;
   }
 
   // Fetch the data in the entry in string.
-  public: std::string fetchData(GtkEntry* entry)
+  public: const char* getText()
   {
-    std::string str;
-    str = gtk_entry_get_text (entry);
-    std::cout << str << '\n';
+    const char* str = gtk_entry_get_text(GTK_ENTRY(this->widget));
     return str;
   }
 
-  public: void reset(GtkEntry* entry)
+  public: void setText(const char* value)
   {
-    gtk_entry_set_placeholder_text(entry,"0");
-    gtk_entry_set_text(entry,"1");
+    gtk_entry_set_text(GTK_ENTRY(this->widget), value);
+  }
+
+  public: void reset()
+  {
+    gtk_entry_set_text(GTK_ENTRY(this->widget), "");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(this->widget), "0");
   }
 
 };
