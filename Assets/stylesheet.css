@@ -1,0 +1,12 @@
+
+#EntryWidget {
+  background: yellow;
+  color: blue;
+  font-style: normal;
+  font-weight: bold;
+  border-radius: 5px;
+  border-width: 0px;
+  border: none;
+  font-size: 14px;
+  margin: 0px 100px 100px 0px;
+}
