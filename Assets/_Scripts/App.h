@@ -10,6 +10,7 @@
 #include "GUI.h"
 #include "Matrix.h"
 #include "EntryWidget.h"
+#include "Input.h"
 
 struct OperatorButton
 {
@@ -46,11 +47,10 @@ class App
   {
     gui = new GUI();
     buttons = new OperatorButton[4];
-
+    
     this->inputfieldButtons = new InputFieldButton*[this->rows];
     for(int i = 0; i < this->rows; i++)
       this->inputfieldButtons[i] = new InputFieldButton[this->columns];
-
     gtk_init(&argc, &argv);
   }
 

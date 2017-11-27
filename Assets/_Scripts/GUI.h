@@ -33,7 +33,6 @@ class GUI
     gtk_widget_set_name(temp, id);
   	return temp;
   }
-
   public: GtkWidget* createInputField(const char* text, GtkWidget* fixed, int xPos, int yPos, int width,int h, const char* id = "InputField")
   {
     GtkWidget* temp = gtk_entry_new();
@@ -66,6 +65,5 @@ class GUI
 
     g_object_unref(provider);
   }
-
 };
 #endif
