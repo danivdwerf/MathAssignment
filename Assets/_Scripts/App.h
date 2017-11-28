@@ -43,8 +43,8 @@ class App
   private: std::vector<Matrix*>matrices;
   private: std::vector<const char*>operators;
 
-  private: int rows = 4;
-  private: int columns = 4;
+  private: int rows = 3;
+  private: int columns = 1;
   private: const int fieldX = 15;
   private: const int fieldY = 80;
   private: const int entryOffset = 2;
@@ -121,6 +121,7 @@ class App
     int startX = x;
 
     this->inputfieldButtons = NULL;
+
     this->inputfieldButtons = new InputFieldButton*[this->rows];
     for(int i = 0; i < this->rows; i++)
       this->inputfieldButtons[i] = new InputFieldButton[this->columns];
@@ -136,7 +137,7 @@ class App
         this->inputfieldButtons[i][j].widget = new EntryWidget(currW, currH, "0", 24, 14);
         GtkWidget* currWidget = this->inputfieldButtons[i][j].widget->widget;
 
-        gtk_grid_attach(GTK_GRID(this->grid), currWidget, i * currW, j * currH, currW, currH);
+        gtk_grid_attach(GTK_GRID(this->grid), currWidget, j * currW, i * currH, currW, currH);
       }
     }
     gtk_widget_show_all(this->window);
@@ -199,8 +200,7 @@ class App
           entryValue = "0";
         int value;
         try{value = atoi(entryValue);}
-        catch(const std::exception& e)
-        {value = 0;}
+        catch(const std::exception& e){value = 0;}
         mat->mat[i][j] = value;
         this->inputfieldButtons[i][j].widget->reset();
       }
@@ -303,15 +303,8 @@ class App
     app->reset();
   }
 
-  public: void updateRowEntry(int value)
-  {
-    gui->setEntryText(this->rowEntry, std::to_string(value).c_str());
-  }
-
-  public: void updateColumnEntry(int value)
-  {
-    gui->setEntryText(this->columnsEntry, std::to_string(value).c_str());
-  }
+  public: void updateRowEntry(int value){gui->setEntryText(this->rowEntry, std::to_string(value).c_str());}
+  public: void updateColumnEntry(int value){gui->setEntryText(this->columnsEntry, std::to_string(value).c_str());}
 
   private: static void rowChange_callback(GtkWidget* widget, GdkEventKey* e, gpointer* data)
   {
