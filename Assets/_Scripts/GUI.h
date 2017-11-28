@@ -33,11 +33,12 @@ class GUI
     gtk_widget_set_name(temp, id);
   	return temp;
   }
-  public: GtkWidget* createInputField(const char* text, GtkWidget* fixed, int xPos, int yPos, int width,int h, const char* id = "InputField")
+
+  public: GtkWidget* createInputField(const char* text, GtkWidget* fixed, int xPos, int yPos, int width, const char* id = "InputField")
   {
     GtkWidget* temp = gtk_entry_new();
-    gtk_entry_set_placeholder_text((GtkEntry*)temp, text);
-    gtk_entry_set_width_chars((GtkEntry*)temp, width);
+    gtk_entry_set_text(GTK_ENTRY(temp), text);
+    gtk_entry_set_width_chars(GTK_ENTRY(temp), width);
 
     gtk_fixed_put (GTK_FIXED (fixed), temp, xPos, yPos);
     gtk_widget_set_name(temp, id);
@@ -48,6 +49,20 @@ class GUI
   {
     const char* entryText = gtk_entry_get_text(GTK_ENTRY(entry));
     return entryText;
+  }
+
+  public: void setEntryText(GtkWidget* entry, const char* value)
+  {
+    gtk_entry_set_text(GTK_ENTRY(entry), value);
+  }
+
+  public: GtkWidget* createScrollWindow(GtkWidget* fixed, int x, int y, int width, int height)
+  {
+    GtkWidget* temp = gtk_scrolled_window_new(NULL, NULL);
+    gtk_fixed_put(GTK_FIXED(fixed), temp, x, y);
+    gtk_widget_set_size_request(temp, width, height);
+    gtk_widget_set_name(temp, "scroll");
+    return temp;
   }
 
   public: void setStyleSheet(const gchar* path)
