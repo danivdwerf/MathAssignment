@@ -44,16 +44,7 @@ class Matrix
 
   public: Matrix* multiply(Matrix *other)
   {
-    Matrix* temp = new Matrix(other->r, other->c);
-    // std::cout << other->mat[0][0] << '\n';
-    // std::cout << other->mat[0][1] << '\n';
-    // std::cout << other->mat[1][0] << '\n';
-    // std::cout << other->mat[1][1] << '\n';
-
-    // temp->mat[0][0] = this->mat[0][0] * other->mat[0][0] + this->mat[1][0] * other->mat[0][1];
-    // temp->mat[0][1] = this->mat[0][1] * other->mat[0][0] + this->mat[1][1] * other->mat[0][1];
-    // temp->mat[1][0] = this->mat[0][0] * other->mat[1][0] + this->mat[1][0] * other->mat[1][1];
-    // temp->mat[1][1] = this->mat[0][1] * other->mat[1][0] + this->mat[1][1] * other->mat[1][1];
+    Matrix* temp = new Matrix(this->r, other->c);
 
     for(int i = 0; i < this->r; i++)
     {
@@ -65,17 +56,6 @@ class Matrix
     }
     return temp;
   }
-
-  /*
-  ->rows
-  [1][0][0]     [1][0]
-  [0][1][0]  *  [0][1]
-  [0][0][1]     [0][0]
-
-  [1][0][0]     [1]     [1][0][0]     [0]
-  [0][1][0]  *  [0]  +  [0][1][0]  *  [1]
-  [0][0][1]     [0]     [0][0][1]     [0]
-  */
 
   public: Matrix* add(Matrix* other)
   {
