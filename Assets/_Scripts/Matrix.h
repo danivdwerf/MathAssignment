@@ -14,6 +14,7 @@ class Matrix
   {
     this->r = rows;
     this->c = columns;
+
     this->mat = new int*[this->r];
     for(int i = 0; i < this->r; i++)
       this->mat[i] = new int[this->c];
@@ -43,12 +44,13 @@ class Matrix
 
   public: Matrix* multiply(Matrix *other)
   {
-    Matrix* temp = new Matrix(other->r, other->c);
+    Matrix* temp = new Matrix(this->r, other->c);
+
     for(int i = 0; i < this->r; i++)
     {
       for(int j = 0; j < this->c; j++)
       {
-        for(int k = 0; k < other->c; k++)
+        for(int k = 0; k < other->r; k++)
           temp->mat[i][j] += this->mat[i][k] * other->mat[k][j];
       }
     }
