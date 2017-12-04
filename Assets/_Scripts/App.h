@@ -44,7 +44,7 @@ class App
   private: std::vector<const char*>operators;
 
   private: int rows = 3;
-  private: int columns = 1;
+  private: int columns = 3;
   private: const int fieldX = 15;
   private: const int fieldY = 80;
   private: const int entryOffset = 2;
@@ -170,6 +170,9 @@ class App
     catch(const std::exception& e){value = 1;}
     if(value == 0)
       value = 1;
+
+    if(this->matrices.size() > 0)
+      value = this->matrices[this->matrices.size()-1]->r;
     this->emptyField();
     this->rows = value;
     this->createInputField();
@@ -183,6 +186,7 @@ class App
     catch(const std::exception& e){value = 1;}
     if(value == 0)
       value = 1;
+
     this->emptyField();
     this->columns = value;
     this->createInputField();
