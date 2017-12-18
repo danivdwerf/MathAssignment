@@ -12,6 +12,7 @@
 #include "GUI.h"
 #include "Matrix.h"
 #include "EntryWidget.h"
+#include "Resources.h"
 
 struct OperatorButton
 {
@@ -33,6 +34,7 @@ class App
   private: GUI* gui = nullptr;
   private: GtkWidget* window = nullptr;
   private: GtkWidget* fixed = nullptr;
+  private: Resources* resources = nullptr;
 
   private: GtkWidget* scrollWindow = nullptr;
   private: GtkWidget* grid = nullptr;
@@ -52,6 +54,7 @@ class App
   public: App(int argc, char* argv[])
   {
     this->gui = new GUI();
+    this->resources = new Resources();
     this->buttons = new OperatorButton[5];
 
     this->inputfieldButtons = new InputFieldButton*[this->rows];
@@ -87,7 +90,11 @@ class App
     this->createButtons();
     this->createInputField();
 
-    gui->setStyleSheet("Assets/stylesheet.css");
+    std::string stylesheetPath = "Assets/stylesheet.css";
+    #ifdef __APPLE__
+    stylesheetPath = resources->getFilePath(stylesheetPath);
+    #endif
+    gui->setStyleSheet(stylesheetPath.c_str());
   }
 
   private: void createButtons()

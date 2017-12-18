@@ -65,7 +65,7 @@ class GUI
     return temp;
   }
 
-  public: void setStyleSheet(const gchar* path)
+  public: void setStyleSheet(const char* path)
   {
     GtkCssProvider* provider = gtk_css_provider_new();
     GdkDisplay* display = gdk_display_get_default();
