@@ -172,7 +172,10 @@ class App
       value = 1;
 
     if(this->matrices.size() > 0)
-      value = this->matrices[this->matrices.size()-1]->r;
+    {
+        value = this->matrices[this->matrices.size()-1]->r;
+    }
+
     this->emptyField();
     this->rows = value;
     this->createInputField();
@@ -186,6 +189,14 @@ class App
     catch(const std::exception& e){value = 1;}
     if(value == 0)
       value = 1;
+
+    if(this->matrices.size() > 0)
+    {
+      std::cout << this->operators[this->operators.size()-1] << '\n';
+
+      if(std::strcmp(this->operators[this->operators.size()-1], "*"))
+        value = this->matrices[this->matrices.size()-1]->c;
+    }
 
     this->emptyField();
     this->columns = value;
